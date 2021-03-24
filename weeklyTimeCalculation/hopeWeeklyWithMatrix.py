@@ -21,13 +21,6 @@ page = str(sys.argv[2])
 db = str(sys.argv[3])
 
 
-# In[45]:
-
-
-# load_id = '5846'
-# page = 'load_temps'
-# db = 'mt'
-
 
 # In[4]:
 
@@ -119,11 +112,6 @@ def getLoadOrdersLatLon():
 
 df = pd.DataFrame(getLoadOrdersLatLon(), columns = ['id', 'Latitude', 'Longitude', 'TWFrom', "TWTo", "servicetime"])
 
-
-# In[11]:
-
-
-df
 
 
 # In[12]:
@@ -253,17 +241,6 @@ print("Total Route Distance in miles:  " + str(totalRouteDistance))
 daily_driving_time = 11*3600   
 
 
-# In[39]:
-
-
-dur
-
-
-# In[40]:
-
-
-df
-
 
 # In[42]:
 
@@ -390,7 +367,6 @@ print(ETAs)
 print("Total Route Duration:  " + str(getTotalRouteDurationWithServiceAndWaitingTimeWeeklySchedule()[1]))
 
 
-# In[ ]:
 
 
 
