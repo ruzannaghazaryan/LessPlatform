@@ -1,0 +1,75 @@
+@startuml
+
+title <size:30>**Order Creation with Legs LP2D-D2D-D2E**</size>
+
+skinparam database {
+		BackgroundColor APPLICATION
+}
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database "SQL" {
+		frame "Order"
+}
+
+rectangle "Create Order" as create
+create -> Order
+
+package "Order Origin_Destination" as od {
+				rectangle "write Origin" as origin #DarkKhaki
+				rectangle "write Destination" as dest #DarkKhaki
+				rectangle "write pickupdateFrom,\n pickupdateTo" as ptw
+				rectangle "write deliverydateFrom,\n deliverydateTo" as dtw
+}
+
+package "Add Shipments" as leg {
+				frame "Add shipment 3" as leg3 #LightGrey {		
+		[D2E]
+}
+
+rectangle "autocomplete start point" as start2
+rectangle "write end point" as end2
+(DEPOT2) as ddd #DarkKhaki
+(Destination) #DarkKhaki
+
+[D2E] --> start2
+start2 --> ddd
+ddd --> end2
+end2 --> (Destination)
+
+package "Add Shipments" as leg {
+			frame "Add shipment 2" as leg2 #LightGrey {		
+		[D2D]
+}
+
+rectangle "autocomplete start point" as start1
+rectangle "write end point" as end1
+rectangle "write start time\n for DEPOT1" as eta
+(DEPOT1) as dd #DarkKhaki
+(DEPOT2) #DarkKhaki
+
+[D2D] --> start1
+start1 --> dd
+dd --> end1
+end1 --> (DEPOT2)
+dd <-- eta
+
+			frame "Add shipment 1" #LightGrey {
+					[LP2D]
+}
+
+rectangle "write start point" as start 
+rectangle "write end point" as end
+(DEPOT1 // Origin) #DarkKhaki 
+(DEPOT1) as d #DarkKhaki 
+
+[LP2D] --> start
+start --> (DEPOT1 // Origin) 
+(DEPOT1 // Origin) ---> end 
+end --> d
+
+create --> od
+create --> leg
+
+
+@enduml

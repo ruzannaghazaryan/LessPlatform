@@ -1,0 +1,77 @@
+@startuml
+
+title <size:30>**Order Creation with Legs (automatically) LP2D-D2D-D2E**</size>
+
+skinparam database {
+					BackgroundColor APPLICATION
+					}
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database "SQL" {
+				frame "Order"
+note right of Order
+<size:14>**when creating order in our app**</size>
+end note
+				}
+				
+rectangle "Create Order" as create 
+create -up-> Order 
+
+package "Order Origin-Destination" as od {
+										rectangle "write origin" #DarkKhaki
+										rectangle "write destination" #DarkKhaki
+										rectangle "write pickupdateFrom, \n pickupdateTo" as ptw
+										rectangle "write deliverydateFrom, \n deliverydateTo" as dtw
+										}
+					
+rectangle "get from the system DEPOT1" as depot1
+rectangle "get from the system DEPOT2" as depot2
+rectangle "choose flowType sequence (LP2D-D2D-D2E)" as flowType
+rectangle "calculate distance (origin, DEPOT1)" as calc1
+rectangle "calculate distance (origin, DEPOT2)" as calc2
+
+create --> od
+od -down--> flowType
+flowType --> depot1
+flowType --> depot2
+depot1 --> calc1
+depot2 --> calc2
+
+package "Automative creation of Shipments" as pkg {
+													frame "Shipment 3" #LightGrey {
+															[D2E]
+													}
+													
+rectangle "the other DEPOT" as another1 #DarkKhaki
+rectangle destination #DarkKhaki
+[D2E] --> another1: autofill\n start point
+another1 --> destination: autofill\n end point																
+													
+													frame "Shipment 2" #LightGrey {
+															[D2D]
+												   }
+
+
+rectangle "DEPOT with min(distance(origin, DEPOT))" as mindepot #DarkKhaki
+rectangle "the other DEPOT" as another #DarkKhaki
+[D2D] --> mindepot: autofill \n start point
+mindepot --> another: autofill\n end point
+												
+													frame "Shipment 1" #LightGrey {
+															[LP2D]
+												   }
+
+calc1 --> pkg
+calc2 --> pkg
+
+rectangle "DEPOT with min(distance(origin, DEPOT))" as mindepott #DarkKhaki
+rectangle "DEPOT with min(distance(origin, DEPOT))" as mindepo #DarkKhaki
+[LP2D] --> mindepott: autofill\n start point
+mindepott --> mindepo: autofill\n end point
+
+@enduml
+									
+
+
+

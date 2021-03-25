@@ -1,0 +1,105 @@
+@startuml
+
+title <size:30>**Order Creation with Legs LP2D-D2D-D2P-P2P-P2D-D2D-D2E**</size>
+
+skinparam database {
+		BackgroundColor APPLICATION
+}
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database "SQL" {
+		frame "Order"
+}
+
+rectangle "Create Order" as create
+create -> Order
+
+package "Order Origin_Destination" as od {
+				rectangle "write Origin" as origin #DarkKhaki
+				rectangle "write Destination" as dest #DarkKhaki
+				rectangle "write pickupdateFrom,\n pickupdateTo" as ptw
+				rectangle "write deliverydateFrom,\n deliverydateTo" as dtw
+}
+
+package "Add Shipments" as leg {
+				frame "Add shipment 7" #LightGrey {
+						[D2E] 
+}
+				
+(DEPOT4) as ddd4 #DarkKhaki
+(Destination) #DarkKhaki
+[D2E] --> ddd4: autocomplete\n start point
+ddd4 --> (Destination): autocomplete\n end point
+
+
+				frame "Add shipment 6" #LightGrey {
+						[D2D] as dp
+}
+				
+(DEPOT3) as dd3 #DarkKhaki
+(DEPOT4) as dd4 #DarkKhaki
+rectangle "write start time\n for DEPOT3" as eta3
+dp --> dd3: autocomplete\n start point
+dd3 --> dd4: write\n end point
+dd3 <-- eta3
+				
+
+				frame "Add shipment 5" #LightGrey {
+						[P2D]
+}
+				
+(PORT2) as pp2 #DarkKhaki
+(DEPOT3) as d3 #DarkKhaki
+rectangle "write start time\n for PORT2" as eta2
+[P2D] --> pp2: autocomplete\n start point
+pp2 --> d3: write\n end point
+pp2 <-- eta2
+
+				frame "Add shipment 4" #LightGrey {
+						[P2P]
+}
+				
+(PORT1) as pp1 #DarkKhaki
+(PORT2) as p2 #DarkKhaki
+rectangle "write start time\n for PORT1" as eta11
+[P2P] --> pp1: autocomplete\n start point
+pp1 --> p2: write\n end point
+pp1 <-- eta11
+				
+				frame "Add shipment 3" #LightGrey {
+						[D2P]
+}
+				
+(DEPOT2) as dd1 #DarkKhaki
+(PORT1) as p1 #DarkKhaki
+rectangle "write start time\n for DEPOT2" as eta1
+[D2P] --> dd1: autocomplete\n start point
+dd1 --> p1: write\n end point
+dd1 <-- eta1
+
+				frame "Add shipment 2" as leg2 #LightGrey {
+						[D2D]
+}
+
+(DEPOT1) as d1 #DarkKhaki
+(DEPOT2) as d2 #DarkKhaki
+rectangle "write start time\n for DEPOT1" as eta
+[D2D] --> d1: autocomplete\n start point
+d1 --> d2: write\n end point
+d1 <-- eta
+
+				frame "Add shipment 1" as leg1 #LightGrey {
+						[LP2D]
+}
+				
+(DEPOT1 // Origin) #DarkKhaki
+(DEPOT1) as d #DarkKhaki
+
+[LP2D] --> (DEPOT1 // Origin): write\n start\n point
+(DEPOT1 // Origin) --> d: write\n end\n point
+
+create --> od
+create --> leg
+
+@enduml

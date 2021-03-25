@@ -1,0 +1,49 @@
+@startuml
+
+title <size:20>**__Item Volume__ Calculation when Writing Size**</size>
+
+skinparam database {
+					BackgroundColor APPLICATION
+					}
+
+skinparam node {
+				BackgroundColor APPLICATION
+				FontSize 20
+				BorderColor black
+				}
+				
+skinparam defaultFont black
+skinparam defaultFontSize 15
+
+database MySQL {
+				frame Order
+				frame Item
+				frame Product
+note right of Product
+<size:11>**SKU: No**</size>
+end note
+				}
+				
+node "Item Volume" as v
+
+Order -> Item
+Item -> Product
+
+rectangle "Input\nLength" as l #LightGrey
+rectangle "Input\nWidth" as w #LightGrey
+rectangle "Input\nHeight" as h #LightGrey
+
+Product ---> l
+Product ---> w
+Product ---> h
+
+l ---> v
+w ---> v
+h ---> v
+
+note right
+<size:11>**Length * Width * Height**</size>
+end note
+
+
+@enduml

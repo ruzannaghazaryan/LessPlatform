@@ -1,0 +1,53 @@
+@startuml
+
+title <size:30>**__Item Volume__ Calculation when choosing Freight Class**</size>
+
+skinparam node {
+		BackgroundColor APPLICATION
+		FontSize 30
+		BorderColor black
+}
+		
+skinparam database {
+		BackgroundColor APPLICATION
+}
+
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database "MySQL" {
+		frame "Order"
+		frame "Item"
+		frame "Product"
+
+note right of Product
+<size:17>**SKU: No**</size>
+end note
+
+		frame "FreightClasses"
+		frame "PieceTypes"
+}
+
+
+node "Item Volume" as v
+rectangle "Input Weight" as weight #LightGrey
+rectangle Density #LightGrey
+
+Order -->> Item
+Item -->> Product
+
+Product -->> FreightClasses
+Product -->> PieceTypes
+FreightClasses ---> (Choose Freight Class)
+PieceTypes ---> (Choose corresponding Piece Type)
+(Choose Freight Class)-> (Choose corresponding Piece Type)
+(Choose corresponding Piece Type) -> Density
+weight --> v
+Density ---> v
+
+note right 
+<size:17>**Weight/Density**</size>
+end note
+
+@enduml
+

@@ -1,0 +1,52 @@
+@startuml
+
+title <size:30>**__Item Volume__ Calculation when Choosing Piece Type**</size>
+
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+skinparam node {
+		BackgroundColor APPLICATION
+		FontSize 30
+		BorderColor black
+}
+
+skinparam database {
+		BackgroundColor APPLICATION
+}
+
+database MySQL {
+		frame Order
+		frame Item
+		frame Product
+
+note right of Product
+<size:16>**SKU: No**</size>
+end note
+ 
+		frame PieceTypes
+}
+
+Order -->> Item
+Item -->> Product
+
+Product -->> PieceTypes
+
+PieceTypes ---> (Choose Piece Type)
+
+rectangle Density #LightGrey
+
+(Choose Piece Type) -> Density
+
+node "Item Volume" as v 
+
+rectangle "Input Weight" as weight #LightGrey 
+
+Density ---> v
+weight --> v
+
+note right 
+<size:16>**Weight/Density**</size>
+end note
+
+@enduml

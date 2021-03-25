@@ -1,0 +1,65 @@
+@startuml
+
+title <size:28>**__Item Volume__ Calculation when Inputting SKU**</size>
+
+skinparam database {
+					BackgroundColor APPLICATION
+					}
+
+skinparam node {
+				BackgroundColor APPLICATION
+				FontSize 28
+				BorderColor black
+				}
+				
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database MySQL {
+				frame Order
+				frame Item
+				frame Product
+
+note right of Product
+<size:14>**SKU: Yes**</size>
+end note 
+				}
+				
+Order --> Item 
+Item --> Product
+
+rectangle "Input Product SKU" as sku
+
+Product --> sku
+
+cloud "IF: if Not Inputting Item Weight" as if
+
+sku--> if
+if --> (Get Piece Type):<size:20>Autofill</size>
+
+(Get Weight) #LightGrey
+if --> (Get Weight): <size:20>Autofill</size>
+
+cloud "ELSE: if Inputting Item Weight" as wr #DarkKhaki
+
+sku --> wr
+wr --> (Get Piece Type)
+
+(Input Weight) #DarkKhaki
+wr ---> (Input Weight)
+
+rectangle Density #LightGrey
+
+(Get Piece Type) --> Density
+
+node "Item Volume" as v 
+
+Density --> v
+(Get Weight) --> v
+(Input Weight) --> v
+
+note right of v
+<size:14>**Weight/Density**</size>
+end note
+
+@enduml

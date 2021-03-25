@@ -1,0 +1,52 @@
+@startuml
+
+title <size:28>**Load start and end points**</size>
+
+skinparam defaultFontSize 20
+node Load #LightGrey
+rectangle "flowType of Load" as flow
+
+Load --> flow: check
+flow --> [LP2D] 
+flow --> [D2D] 
+flow --> [D2E] 
+flow --> [D2P] 
+flow --> [P2P] 
+flow --> [P2D] 
+
+rectangle "load_start_point =\n shipment_start_point =\n Depot OR Origin" as start1 #LightGrey
+rectangle "load_end_point = \n shipment_end_point = \n Depot" as end1 #LightGrey
+[LP2D] --> start1
+start1 --> end1
+
+rectangle "load_start_point =\n shipment_start_point = \n Depot1" as start2 #LightGrey
+rectangle "load_end_point =\n shipment_end_point = \n Depot2" as end2 #LightGrey
+[D2D] --> start2
+start2 --> end2
+
+rectangle "load_start_point =\n shipment_start_point = \n Depot" as start3 #LightGrey
+[D2E] --> start3
+start3 --> (check 'Return' condition)
+rectangle "load_end_point = \n shipment_start_point =\n Depot" as end3 #LightGrey
+rectangle "load_end_point = \n last_shipment_end_point" as end31 #LightGrey
+(check 'Return' condition) --> end3: True
+(check 'Return' condition) --> end31: False
+
+rectangle "load_start_point = \n shipment_start_point = \n Depot" as start4 #LightGrey
+rectangle "load_end_point = \n shipment_end_point = \n Port" as end4 #LightGrey
+[D2P] --> start4
+start4 --> end4
+
+rectangle "load_start_point = \n shipment_start_point = \n Port1" as start5 #LightGrey
+rectangle "load_end_point = \n shipment_end_point = \n Port2" as end5 #LightGrey
+[P2P] --> start5
+start5 --> end5
+
+rectangle "load_start_point = \n shipment_start_point =\n Port" as start6 #LightGrey
+rectangle "load_end_point = \n shipment_end_point =\n Depot" as end6 #LightGrey
+[P2D] --> start6
+start6 --> end6
+
+
+@enduml
+

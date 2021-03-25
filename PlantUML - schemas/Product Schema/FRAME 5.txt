@@ -1,0 +1,49 @@
+@startuml
+
+title <size:20>**__Handling Unit Volume__ Calculation when Inputting Size**</size>
+
+skinparam database {
+		BackgroundColor APPLICATION
+			}
+
+skinparam node {
+		BackgroundColor APPLICATION
+		FontSize 20
+		BorderColor black
+}
+
+skinparam defaultFont black
+skinparam defaultFontSize 15
+
+database MySQL {
+		frame Order
+		frame "Handling Unit" as hu
+		
+note right of hu
+<size:12>**Can Pass Item Creation.**</size>
+end note 
+
+}
+
+Order --> hu
+
+rectangle "Input Length" as l #LightGrey
+rectangle "Input Width" as w #LightGrey
+rectangle "Input Height" as h #LightGrey
+
+hu --> l
+hu --> w
+hu --> h
+
+node "Handling Unit\nVolume" as huv
+
+l --> huv
+w --> huv
+h --> huv
+
+note right of huv
+<size:12>**Length * Width * Height**</size>
+end note 
+
+
+@enduml 

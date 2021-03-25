@@ -1,0 +1,96 @@
+@startuml
+
+title <size:30>**Order Creation with Legs (automatically with API) LP2D-D2D-D2D-D2E**</size>
+
+skinparam database {
+					BackgroundColor APPLICATION
+					}
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+cloud API #APPLICATION
+
+database "SQL" {
+				frame "Order"
+				}
+				
+rectangle "Create Orders" as create 
+create -up-> Order 
+
+package "Order Origin-Destination" as od {
+										rectangle "get origin" #DarkKhaki
+										rectangle "get destination" #DarkKhaki
+										rectangle "get pickupdateFrom, \n pickupdateTo" as ptw
+										rectangle "get deliverydateFrom, \n deliverydateTo" as dtw
+										}
+										
+od -up--> create  #MediumBlue
+API ----> od: getting orders\n with API
+					
+
+rectangle "get from the system DEPOT2" as depot2
+rectangle "get from the system DEPOT1" as depot1
+rectangle "get from the system DEPOT3" as depot3
+
+rectangle "choose flowType sequence (LP2D-D2D-D2D-D2E)" as flowType
+rectangle "calculate distance (origin, DEPOT1)\n calculate distance(DEPOT1, destination)" as calc1
+rectangle "calculate distance (origin, DEPOT2)\n calculate distance(DEPOT2, destination)" as calc2
+rectangle "calculate distance (origin, DEPOT3)\n calculate distance(DEPOT3, destination)" as calc3
+
+od -down--> flowType
+
+flowType --> depot2
+flowType --> depot1
+flowType --> depot3
+
+depot1 --> calc1
+depot2 --> calc2
+depot3 --> calc3
+
+package "Automatic creation of Shipments" as pkg {
+													frame "Shipment 4" #LightGrey {
+															[D2E]
+													}													
+rectangle "DEPOT with min(distance(DEPOT, destination))" as another1 #DarkKhaki
+rectangle destination #DarkKhaki
+[D2E] --> another1: autofill\n start point
+another1 --> destination: autofill\n end point																
+													
+													frame "Shipment 3" #LightGrey {
+															[D2D] as d2d
+												   }
+rectangle "the other DEPOT" as another #DarkKhaki
+rectangle "DEPOT with min(distance(DEPOT, destination))" as another11 #DarkKhaki
+
+d2d --> another: autofill \n start point
+another --> another11: autofill\n end point
+												
+												
+													frame "Shipment 2" #LightGrey {
+															[D2D]
+												   }
+rectangle "DEPOT with min(distance(origin, DEPOT))" as mindepott #DarkKhaki
+rectangle "the other depot" as mindepo #DarkKhaki
+[D2D] --> mindepott: autofill \n start point
+mindepott --> mindepo: autofill\n end point
+
+
+
+													frame "Shipment 1" #LightGrey {
+															[LP2D]
+												   }
+rectangle origin as or #DarkKhaki
+rectangle "DEPOT with min(distance(origin, DEPOT))" as mindepottt #DarkKhaki
+[LP2D] --> or: autofill \n start point
+or --> mindepottt: autofill\n end point
+
+
+calc1 --> pkg
+calc2 --> pkg
+calc3 --> pkg
+pkg -left--> create #MediumBlue
+@enduml
+									
+
+
+

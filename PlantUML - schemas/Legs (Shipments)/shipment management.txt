@@ -1,0 +1,48 @@
+load_building page --> 
+					loads --> 
+							load editting (extract the order from one load (old_load) and add it to another(new_load))
+							  
+
+1. check flowType of old_load 
+2. check Depot of old_load
+
+
+if flowType = LP2D and depot = Depot1 -->
+		-->	show only Unplanned LP2D orders with Depot1 in "Orders" part of load_building page
+					1) check flowType of new_load
+							if flowType = LP2D --> check depot
+									if depot = Depot1 --> add the order to new_load --> check capacity and TW constraints
+									if depot != Depot1 --> DO NOT add the order to new_load 
+ 														  --> else: edit virtual order (LP2D with Depot2)
+							else: (flowType != LP2D) --> DO NOT add the order to new_load
+							
+							
+							
+							
+							
+if flowType = D2D (from Depot1 to Depot2) -->
+		--> show only Unplanned D2D (from Depot1 to Depot2) orders in "Orders" part of load_building page
+					1) check flowType of new_load
+							if flowType = D2D --> check depots
+									if start_depot = Depot1 and end_depot = Depot2 --> add the order to new_load --> check capacity and ??TW constraints
+									else: (start_depot != Depot1 or end_depot != Depot2) --> DO NOT add the order to new_load
+							else: (flowType != D2D) --> DO NOT add the order to new_load
+							
+							
+							
+
+if flowType = D2E and depot = Depot1 -->
+		--> show only Unplanned D2E orders with Depot1 in "Orders" part of load_building page
+					1) check flowType of new_load
+							if flowType = D2E -->
+									if depot = Depot1 --> add the order to new_load --> check capacity and TW constraints
+									if depot != Depot1 --> DO NOT add the order to new_load
+							else: (flowType != D2E) --> DO NOT add the order to new_load
+							
+												
+									
+																							 
+																										
+											  
+								
+								

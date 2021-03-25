@@ -1,0 +1,141 @@
+@startuml
+
+title <size:30>**Create Order Manually in Less App**</size>
+
+skinparam database {
+					BackgroundColor APPLICATION
+					}
+skinparam defaultFont black
+skinparam defaultFontSize 22
+
+database "SQL" {
+				frame "Order"
+				}
+				
+rectangle "Create Order" as create
+
+Order <-- create
+
+package "Address and other data" as orig #Snow {
+								frame "loadType" #LightGrey  {
+												["choose loadType (LTL / TL / Parcel / \n VLTL / Drayage / FCL / LCL)"]
+												}
+								frame "References" #LightGrey {
+												["write BOL#"]
+												["write Pro#"]
+												["write PO#"]
+												}
+								frame "Equipment Type" #LightGrey {
+												["choose Equipment Type \n (Dry / Reefer / Frozen / Cooler)"]
+												}
+								frame "Delivery" #LightGrey {
+												["write deliverydateFrom, \n deliverydateTo"]
+												["write destination"]
+												}
+								frame "Pickup" #LightGrey {
+												["write pickupdateFrom, \n pickupdateTo"]
+												["write origin"]
+												}
+										  }
+							
+create ---> orig
+
+rectangle " **choose flowType sequence** \n Ex: LP2D-D2D-D2E" as flowType #LightGrey
+orig --> flowType
+
+package "Add shipments" as shipments #Snow {
+									frame "Add shipment 3" as leg3 #LightGrey {		
+												[D2E]
+									}
+(DEPOT2) as ddd 
+
+[D2E] --> ddd: autofill start point
+ddd --> (Destination): autofill end point
+
+									frame "Add shipment 2" as leg2 #LightGrey {		
+												[D2D]
+									}
+rectangle "write start time\n for DEPOT1" as eta
+(DEPOT1) as dd  
+
+[D2D] --> dd: autofill start point
+dd --> (DEPOT2): autofill end point
+dd <- eta 
+
+									frame "Add shipment 1" #LightGrey {
+												[LP2D]
+									}
+									
+(DEPOT1) as d 
+
+[LP2D] --> (DEPOT1 // Origin): write \n start point
+(DEPOT1 // Origin) --> d: write \n end point
+}			
+
+flowType --> shipments
+
+package "Add Handling Unit" as hu #Snow {
+								rectangle "Volume Calculation" as volume
+								rectangle "write Weight" #LightGrey
+								rectangle "write Quantity" #LightGrey
+								cloud "if writing size" as size
+								cloud "if not writing size" as nosize
+								rectangle "write Length" as l #LightGrey
+								rectangle "write Width" as w #LightGrey
+								rectangle "write Height" as h #LightGrey
+								rectangle "calculate Volume" as vol
+								rectangle "write Volume" as wvol #LightGrey
+								
+								volume --> size
+								volume --> nosize
+								nosize --> wvol
+								size --> l
+								size --> w
+								size --> h
+								l --> vol
+								w --> vol
+								h --> vol
+								}
+								
+shipments -down--> hu
+
+
+package "Rating" as rate #Snow {
+								rectangle "Total Rate" as total #LightGrey
+								rectangle "Rating Types" as rtypes
+								rectangle "Flat Rate" as flat #LightGrey
+								rectangle "Rate Per Mile" as per #LightGrey
+								rectangle "Fuel Surcharge" as fuel #LightGrey
+								rectangle "Other" as other #LightGrey
+								
+								total <-- flat
+								total <-- fuel
+								total <-- other
+								
+								note right of total
+								<size:14>**Total Rate = Flat Rate +**</size>
+								<size:14>** + Fuel Surcharge + Other**</size>
+								end note 
+								
+								rectangle "get (origin, destination)\n distance" as getd
+								rectangle "get (origin, destination)\n distance" as getdd
+								rectangle "calculate \n Rate Per Mile" as perm #LightGrey
+								rectangle "calculate Flat Rate" as fl #LightGrey
+								note right of fl
+								<size:14>**Flat Rate = Rate Per Mile * distance**</size>
+								end note
+								note right of perm
+								<size:14>**Rate Per Mile = Flat Rate /**</size>
+								<size:14>** / distance**</size>
+								end note
+								
+								rtypes --> flat: else writing
+								rtypes --> per: if writing
+								flat -->  getd
+								per --> getdd
+								getd --> perm
+								getdd --> fl
+								}
+
+hu -down-> rate
+@enduml

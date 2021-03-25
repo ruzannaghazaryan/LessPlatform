@@ -1,0 +1,56 @@
+LP2D-D2D-D2E
+
+create order:
+			write origin
+			write pickupdateFrom, pickupdateTo
+			write destination
+			write deliverydateFrom, deliverydateTo
+					get from the system: DEPOT1
+					get from the system: DEPOT2
+					choose flowType sequence (LP2D-D2D-D2E)
+							calculate distance(origin, DEPOT1), distance(origin, DEPOT2)
+									leg1 -> LP2D (virtual order 1)
+											autofill origin
+											autofill DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2))
+									leg2 -> D2D (virtual order 2)
+											autofill DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2))
+											autofill another DEPOT
+											write start time for DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2)) 
+									leg3 -> D2E (virtual order 3)
+											autofill another DEPOT
+											autofill destination
+end create order:
+
+
+
+
+
+
+
+LP2D-D2D-D2D-D2E
+
+create order:
+			write origin
+			write pickupdateFrom, pickupdateTo
+			write destination
+			write deliverydateFrom, deliverydateTo
+					get from the system DEPOT1
+					get from the system DEPOT2
+					get from the system DEPOT3
+					choose flowType sequence (LP2D-D2D-D2D-D2E)
+							calculate distance(origin, DEPOT1), distance(origin, DEPOT2), distance(origin, DEPOT3)
+							calculate distance(DEPOT1, destination), distance(DEPOT2, destination), distance(DEPOT3, destination)
+									leg1 -> LP2D (virtual order 1)
+											autocomplete origin
+											autocomplete DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2), distance(origin, DEPOT3))
+									leg4 -> D2E (virtual order 4)
+											autocomplete DEPOT with min(distance(DEPOT1, destination), distance(DEPOT2, destination), distance(DEPOT3, destination))
+											autocomplete destination
+									leg2 -> D2D (virtual order 2)
+											autocomplete DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2), distance(origin, DEPOT3))
+											autocomplete another DEPOT
+											write start time for DEPOT with min(distance(origin, DEPOT1), distance(origin, DEPOT2), distance(origin, DEPOT3))
+									leg3 -> D2D (virtual order 3)
+											autocomplete another DEPOT 
+											autocomplete min(distance(DEPOT1, destination), distance(DEPOT2, destination), distance(DEPOT3, destination))
+											write start time for another DEPOT

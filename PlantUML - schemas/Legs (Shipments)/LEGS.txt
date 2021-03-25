@@ -1,0 +1,72 @@
+LP2D-D2D-D2E
+
+Create Order:
+		write Order Origin
+		write pickupdateFrom, pickupdateTo
+		write Order Destination
+		write deliverydateFrom, deliverydateTo
+				Add leg1 -> LP2D (virtual order 1)
+							write start point: DEPOT1 || origin
+							write end point: DEPOT1
+				Add leg2 -> D2D (virtual order 2)
+							autocomplete start point: DEPOT1
+							write end point: DEPOT2
+							write start time for DEPOT1
+				Add leg3 -> D2E (virtual order 3)
+							autocomplete start point: DEPOT2
+							autocomplete end point: Order Destination
+
+End Create Order:
+--------------------
+
+
+
+
+
+
+
+
+LP2D-D2D-D2P-P2P-P2D-D2D-D2E
+
+Create Order:
+		write Order Origin
+		write pickupdateFrom, pickupdateTo
+		write Order Destination
+		write deliverydateFrom, deliverydateTo
+				Add leg1 -> LP2D (virtual order 1)
+							write start point: DEPOT1 || origin
+							write end point: DEPOT1
+				Add leg2 -> D2D (virtual order 2)
+							autocomplete start point: DEPOT1
+							write end point: DEPOT2
+							write start time for DEPOT1
+				Add leg3 -> D2P (virtual order 3)
+							autocomplete start point: DEPOT2
+							write end point: PORT1
+							write start time for DEPOT2
+				Add leg4 -> P2P (virtual order 4)
+							autocomplete start point: PORT1
+							write end point: PORT2
+							write start time for PORT1
+				Add leg5 -> P2D (virtual order 5)
+							autocomplete start point: PORT2
+							write end point: DEPOT3
+							write start time for PORT2
+				Add leg6 -> D2D (virtual order 6)
+							autocomplete start point: DEPOT3
+							write end point: DEPOT4
+							write start time for DEPOT3
+				Add leg7 -> D2E (virtual order 7)
+							autocomplete start point: DEPOT4
+							autocomplete end point: Order Destination
+							
+End Create Order:
+--------------------
+				
+				
+							
+							
+
+							
+							
+		
