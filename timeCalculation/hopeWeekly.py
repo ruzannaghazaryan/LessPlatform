@@ -142,11 +142,6 @@ df.index = df['id']
 df = df.drop(['id'], axis = 1)
 
 
-# In[ ]:
-
-
-df
-
 
 # In[ ]:
 
@@ -257,23 +252,6 @@ print("Driving Time:  " + str(drivingTime))
 
 # In[ ]:
 
-
-
-#def getTotalRouteDurationWithServiceAndWaitingTimeDailySchedule():
- #   ETA = []
-  #  ETA.append(startTime)
-   # eta = max(startTime + timedelta(seconds = jsonResponse['routes'][0]['legs'][0]['duration']), df.iloc[1, 2])
-    #ETA.append(eta)
-    #for i in range(1, len(jsonResponse['routes'][0]['legs'])):
-     #   if (eta + timedelta(seconds = jsonResponse['routes'][0]['legs'][i]['duration']) + timedelta(seconds = df.iloc[i, 4]))>= df.iloc[i+1, 2]:
-      #      eta += timedelta(seconds = jsonResponse['routes'][0]['legs'][i]['duration']) + timedelta(seconds = df.iloc[i, 4])
-       # else:
-        #    eta = df.iloc[i+1, 2] 
-            
-#         eta = max(eta + timedelta(seconds = jsonResponse['routes'][0]['legs'][i]['duration']), df.iloc[i+1, 2]) + timedelta(seconds = df.iloc[i, 4])
-        #ETA.append(eta)
-    #return(ETA)
-    
 
 
 daily_driving_time = 11*3600   
