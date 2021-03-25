@@ -28,19 +28,10 @@ mydb  = mysql.connector.connect(
                                 host = '144.217.38.21',
                                 user = 'bf4u',
                                 password = 'Zn6+YsUU',
-                                database = db)
+                                database = db
+                                )
 mycursor = mydb.cursor()
 
-
-# In[1]:
-
-
-# mydb  = mysql.connector.connect(
-#                                 host = '144.217.38.21',
-#                                 user = 'bf4u',
-#                                 password = 'Zn6+YsUU',
-#                                 database = 'working')
-# mycursor = mydb.cursor()
 
 
 # In[ ]:
@@ -57,34 +48,10 @@ def getLoadOrders():
     
 
 
-# In[2]:
-
-
-# def getLoadOrders():
-#     query = "SELECT `orders`, `flowType`, `depoId`, `return`, `startTime` FROM load_temps WHERE id = 3209"
-#     try:
-#         mycursor.execute(query)
-#     except:
-#         print("Execute Fail")
-#     result = mycursor.fetchall()[0]
-#     return result
-    
-
-
 # In[ ]:
 
 
 output = getLoadOrders()
-
-
-# In[ ]:
-
-
-output
-
-
-# In[ ]:
-
 
 load_order = output[0].split(',')
 load_orders = tuple(int(i) for i in load_order)
@@ -117,10 +84,7 @@ def getLoadOrdersLatLon():
     return results
 
 
-# In[ ]:
 
-
-# getLoadOrdersLatLon()
 
 
 # In[ ]:
@@ -139,12 +103,6 @@ df.index = df['id']
 
 
 df = df.drop(['id'], axis = 1)
-
-
-# In[ ]:
-
-
-df
 
 
 # In[ ]:
@@ -243,24 +201,10 @@ drivingTime = str(int(math.modf(jsonResponse['routes'][0]['duration']/3600)[1]))
 print("Driving Time:  " + str(drivingTime))
 
 
+    
 # In[ ]:
 
 
-# def getTotalRouteDurationWithServiceAndWaitingTime():
-#     ETA = []
-#     ETA.append(startTime)
-#     eta = max(startTime + timedelta(seconds = jsonResponse['routes'][0]['legs'][0]['duration']), df.iloc[1, 2])
-#     ETA.append(eta)
-#     for i in range(1, len(jsonResponse['routes'][0]['legs'])):
-#         eta = max(eta + timedelta(seconds = jsonResponse['routes'][0]['legs'][i]['duration']), df.iloc[i+1, 2]) + timedelta(seconds = df.iloc[i, 4])
-#         ETA.append(eta)
-#     return(ETA)
-    
-    
-    
-
-
-# In[ ]:
 def getShifts():
     query = "SELECT `break_time`, `rest`, `shift`, `drivingtime`, `recharge` FROM shifts WHERE id = " + str(shiftId)
     try:
@@ -351,8 +295,6 @@ print(ETAs)
 totalRouteDuration = ETAs.iloc[-1, 0] - ETAs.iloc[0, 0]
 if returned == 1:
     totalRouteDuration += timedelta(seconds = df.iloc[-1][4])
-#if totalRouteDuration.total_seconds()//3600 >= break_time:
-    #totalRouteDuration += timedelta(seconds = rest)
 print("Total Route Duration:  " + str(totalRouteDuration))
 
 
