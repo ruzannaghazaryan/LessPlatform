@@ -207,6 +207,7 @@ jsonResponse
 
 
 dur = pd.DataFrame(jsonResponse['durations'], index = df.index, columns=df.index)
+print(dur)
 # dur
 
 
@@ -361,7 +362,7 @@ eta_ = []
 eta_ = [i for i in getTotalRouteDurationWithServiceAndWaitingTimeWeeklySchedule()[0]]
 ETAs = pd.DataFrame(eta_, columns = ['ETA'])
 for i in range(len(ETAs)):
-    ETAs['ETA'][i] += timedelta(hours = -5)
+    ETAs['ETA'][i] += timedelta(hours = -4)
 print(ETAs)
 #    totalRouteDuration = ETAs.iloc[-1, 0] - ETAs.iloc[0, 0]
 print("Total Route Duration:  " + str(getTotalRouteDurationWithServiceAndWaitingTimeWeeklySchedule()[1]))
