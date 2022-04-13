@@ -454,18 +454,33 @@ def pdpTimeCalculations():
     arriveTimes.append(startTime)
     
     if startTime < df['from'][0]:
-        eta = df['from'][0]
-        wholeDuration = (eta - startTime).total_seconds()
+        if shiftInterval <= (df['from'][0] - startTime).total_seconds():
+            remainder = (df['from'][0] - (startTime + timedelta(seconds = shiftInterval))).total_seconds()
+            if remainder <= recharge:
+                eta = startTime + timedelta(seconds = shiftInterval + c * recharge)
+                shiftInterval += shift
+                c += 1
+            else:
+                eta = startTime + timedelta(seconds = shiftInterval + c * recharge)
+                shiftInterval += shift
+                c += 1
+                remainder = (df['from'][0] - eta).total_seconds()
+                while remainder >= shift:
+                    eta += timedelta(seconds = shift + recharge)
+                    shiftInterval += shift
+                    c += 1
+                    remainder = (df['from'][0] - eta).total_seconds()
+                    if remainder < 0:
+                        break
+                else:
+                    eta = df['from'][0]
+        elif (df['from'][0] - startTime).total_seconds() < shiftInterval:
+            eta = df['from'][0]
+            
+        wholeDuration = (eta - startTime).total_seconds() - (c-1) * recharge
         if wholeDuration >= breakTimeInterval:
             b = (wholeDuration - breakTimeInterval)//shift + 1
-            eta += timedelta(seconds = b * rest)
             breakTimeInterval += b * shift
-            wholeDuration = (eta - startTime).total_seconds()
-        if wholeDuration >= shiftInterval:
-            d = (wholeDuration - shiftInterval)//shift + 1
-            eta += timedelta(seconds = d * recharge)
-            shiftInterval += d * shift
-            c += d
     else:
         eta = startTime
     ETA.append(eta)
