@@ -16,7 +16,7 @@ import sys
 
 
 try:
-    client = pymongo.MongoClient('mongodb://admin:hello8008there@144.217.38.21:27017')
+    client = pymongo.MongoClient('')
 except:
     print('cannot connect to MongoDB')
     sys.exit()
@@ -25,7 +25,7 @@ except:
 # In[20]:
 
 
-db = 'FTL'
+db = ''
 # print('Please input loadID:')
 # loadId = int(input())
 
@@ -169,7 +169,7 @@ if (flowType == 3 and pd.notnull(output[0]['depo'])):
 
 
 def getResponseHTTPRequest():
-    base_url = 'http://planet.getflatbeds.com/route/v1/driving/'
+    base_url = ''
     for i in range(1, len(df)-1, 2):
         base_url += df['lon'][i] + ',' + df['lat'][i] + ';' + df['lon'][i+1] + ',' + df['lat'][i+1] + ';'
     base_url = base_url[:-1] + '?overview=false&exclude=ferry'
