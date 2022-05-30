@@ -398,7 +398,7 @@ df.index = range(len(df))
 
 
 def getResponseHTTPRequest():
-    base_url = 'http://planet.getflatbeds.com/route/v1/driving/'
+    base_url = ''
     for i in df.index:
         base_url += df['lon'][i] + ',' + df['lat'][i] + ';'
     base_url = base_url[:-1] + '?overview=false&exclude=ferry'
