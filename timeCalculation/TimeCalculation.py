@@ -23,8 +23,7 @@ from bson.objectid import ObjectId
 
 
 try:
-    #client = pymongo.MongoClient('mongodb://Admin:rvr6+NNkY=k!8XYU@149.56.159.52:27017')
-    client = pymongo.MongoClient('mongodb://admin:hello8008there@144.217.38.21:27017')
+    client = pymongo.MongoClient('')
 except:
     print('cannot connect to MongoDB')
     sys.exit()
